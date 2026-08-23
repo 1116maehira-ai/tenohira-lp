@@ -3361,16 +3361,16 @@ onScroll();
 
     <!-- 右：フォーム -->
     <div class="form-right">
-      <form onsubmit="return false;">
+      <form id="tenohiraForm" onsubmit="submitTenohiraForm(event)">
         <!-- 名前・会社名 -->
         <div class="form-row">
           <div class="form-group">
             <label>お名前<span class="req">（必須）</span></label>
-            <input type="text" placeholder="例）前平 雄一朗">
+            <input type="text" name="name" required placeholder="例）前平 雄一朗">
           </div>
           <div class="form-group">
             <label>会社名<span class="req">（必須）</span></label>
-            <input type="text" placeholder="">
+            <input type="text" name="company" required placeholder="">
           </div>
         </div>
 
@@ -3378,11 +3378,11 @@ onScroll();
         <div class="form-row">
           <div class="form-group">
             <label>電話番号<span class="req">（必須）</span></label>
-            <input type="tel" placeholder="例）080-6496-4392">
+            <input type="tel" name="phone" required placeholder="例）098-953-2728">
           </div>
           <div class="form-group">
             <label>メールアドレス<span class="req">（必須）</span></label>
-            <input type="email" placeholder="例）mail@example.com">
+            <input type="email" name="email" required placeholder="例）mail@example.com">
           </div>
         </div>
 
@@ -3392,12 +3392,12 @@ onScroll();
           <div class="form-check-group">
             <label>ご検討内容（複数選択可）</label>
             <div class="check-grid">
-              <label class="check-item"><input type="checkbox"><span>周年記念映像</span></label>
-              <label class="check-item"><input type="checkbox"><span>式典・竣工式・発表会</span></label>
-              <label class="check-item"><input type="checkbox"><span>採用ブランディング映像</span></label>
-              <label class="check-item"><input type="checkbox"><span>企業紹介・ブランディング動画</span></label>
-              <label class="check-item"><input type="checkbox"><span>AI研修・補助金申請との組み合わせ</span></label>
-              <label class="check-item"><input type="checkbox"><span>その他・まずは相談したい</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="周年記念映像"><span>周年記念映像</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="式典・竣工式・発表会"><span>式典・竣工式・発表会</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="採用ブランディング映像"><span>採用ブランディング映像</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="企業紹介・ブランディング動画"><span>企業紹介・ブランディング動画</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="AI研修・補助金申請との組み合わせ"><span>AI研修・補助金申請との組み合わせ</span></label>
+              <label class="check-item"><input type="checkbox" name="inquiry_type" value="その他・まずは相談したい"><span>その他・まずは相談したい</span></label>
             </div>
           </div>
 
@@ -3405,11 +3405,11 @@ onScroll();
           <div class="form-radio-group">
             <label>ご予算の目安</label>
             <div class="radio-list">
-              <label class="radio-item"><input type="radio" name="budget"><span>〜50万円</span></label>
-              <label class="radio-item"><input type="radio" name="budget"><span>50〜100万円</span></label>
-              <label class="radio-item"><input type="radio" name="budget"><span>100〜150万円</span></label>
-              <label class="radio-item"><input type="radio" name="budget"><span>150万円以上</span></label>
-              <label class="radio-item"><input type="radio" name="budget"><span>未定・要相談</span></label>
+              <label class="radio-item"><input type="radio" name="budget" value="〜50万円"><span>〜50万円</span></label>
+              <label class="radio-item"><input type="radio" name="budget" value="50〜100万円"><span>50〜100万円</span></label>
+              <label class="radio-item"><input type="radio" name="budget" value="100〜150万円"><span>100〜150万円</span></label>
+              <label class="radio-item"><input type="radio" name="budget" value="150万円以上"><span>150万円以上</span></label>
+              <label class="radio-item"><input type="radio" name="budget" value="未定・要相談"><span>未定・要相談</span></label>
             </div>
           </div>
         </div>
@@ -3417,12 +3417,12 @@ onScroll();
         <!-- 質問・要望 -->
         <div class="form-group">
           <label>ご質問・ご要望・背景など（任意）</label>
-          <textarea placeholder="ご自由にご記入ください"></textarea>
+          <textarea name="message" placeholder="ご自由にご記入ください"></textarea>
         </div>
 
         <!-- 送信ボタン -->
-        <button class="form-submit-btn">
-          無料相談を申し込む
+        <button class="form-submit-btn" id="tenohiraSubmitBtn" type="submit">
+          <span id="tenohiraBtnText">無料相談を申し込む</span>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
 
@@ -3431,6 +3431,61 @@ onScroll();
           <span class="form-note">※ しつこい営業は一切しません。</span>
         </div>
       </form>
+
+      <script>
+      const TENOHIRA_GAS_URL = 'https://script.google.com/macros/s/AKfycby3fS3VmHIsUf0dSs9jK2ziB5NmfnuNI6tRGBJ_1606q71OsuXbCVT1R5uemz_Jd2HA/exec';
+
+      function submitTenohiraForm(e) {
+        e.preventDefault();
+        const btn = document.getElementById('tenohiraSubmitBtn');
+        const btnText = document.getElementById('tenohiraBtnText');
+        btn.disabled = true;
+        btnText.textContent = '送信中...';
+
+        const form = document.getElementById('tenohiraForm');
+        const data = new FormData(form);
+
+        // チェックボックスを結合
+        const checked = [];
+        form.querySelectorAll('input[name="inquiry_type"]:checked').forEach(cb => checked.push(cb.value));
+
+        const params = new URLSearchParams();
+        params.append('name', data.get('name') || '');
+        params.append('company', data.get('company') || '');
+        params.append('phone', data.get('phone') || '');
+        params.append('email', data.get('email') || '');
+        params.append('inquiry_type', checked.join('・') || '');
+        params.append('budget', data.get('budget') || '');
+        params.append('message', data.get('message') || '');
+
+        fetch(TENOHIRA_GAS_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: params.toString()
+        })
+        .then(res => res.json())
+        .then(result => {
+          if (result.result === 'success') {
+            btnText.textContent = '送信完了！';
+            btn.style.background = '#2E7B6E';
+            form.reset();
+            setTimeout(() => {
+              btn.disabled = false;
+              btnText.textContent = '無料相談を申し込む';
+              btn.style.background = '';
+            }, 4000);
+          } else {
+            throw new Error(result.message);
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          btnText.textContent = 'エラーが発生しました。お電話でご連絡ください。';
+          btn.disabled = false;
+          setTimeout(() => { btnText.textContent = '無料相談を申し込む'; }, 5000);
+        });
+      }
+      </script>
     </div>
 
   </div>
