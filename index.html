@@ -1518,10 +1518,11 @@ nav.scrolled{
   opacity: 0.6;
 }
 .legacy-om-logo {
-  height: 100px;
-  width: auto;
+  height: auto;
+  width: 320px;
+  max-width: 100%;
   display: block;
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   opacity: 0.92;
 }
 .legacy-om-tagline {
@@ -1529,11 +1530,15 @@ nav.scrolled{
   font-size: clamp(14px, 1.6vw, 20px);
   font-weight: 700;
   color: #2C2420;
-  line-height: 1.8;
+  line-height: 1.5;
   margin-bottom: 0;
-  padding-top: 20px;
+  padding-top: 16px;
   border-top: 1px solid rgba(44,36,32,0.12);
   letter-spacing: 0.06em;
+}
+.legacy-om-tagline em {
+  display: block;
+  margin-bottom: 6px;
 }
 .legacy-om-tagline em {
   font-style: normal;
